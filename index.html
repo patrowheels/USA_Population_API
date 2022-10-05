@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HTML 5 Boilerplate</title>
+    <link>
+  </head>
+  <body>
+    <button style="margin-top: 20%; display: block; margin-left: auto; margin-right: auto;  font-size: larger;" onclick=showCountries()>Show Americas Poulation</button>
+    <div style="text-align: center;">
+    <div style="word-spacing: .5em; font-size:larger; color:yellow; background-color: blue; display:inline-block; width: 50%; text-align: center; margin-top: 5%;"  id="feed"></div>
+    </div>
+    <script>
+
+        function showCountries(){
+            // in ajax everything is handled by this object
+            let xhr = new XMLHttpRequest()
+            // initializing the request using the open method that comes with the xml object.Uses api endpoint
+            xhr.open('GET','https://datausa.io/api/data?drilldowns=Nation&measures=Population',true)
+
+            xhr.onload = function(){
+                // checking if the response was a success i.e. 200
+                if (xhr.status == 200){
+                    console.log("success")
+                    let info = JSON.parse(this.response)
+                    console.log(info)
+                    var i = 0
+                    for (const property in info.data) {
+                        
+                        const AmericasPopulation = document.createElement('div')
+                        AmericasPopulation.innerHTML = "Year: " + info.data[i].Year + " " +  " Population: " + info.data[i].Population
+                        document.getElementById('feed').appendChild(AmericasPopulation)
+
+                        console.log(`${property}: ${info[property]}`);
+                        i++
+                    }
+                }
+            }
+            xhr.send()
+        }
+
+    </script>
+  </body>
+</html>
